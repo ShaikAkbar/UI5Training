@@ -4,30 +4,35 @@
 		<pages>
 			<Page title="Details">
 				<content>
-					<VBox>
-						<Input id="idInput" value="{/InputValue}" width="4rem"/>
-						<Input id="idInput1" value="{/InputValue1}" width="4rem"/>
-						<ComboBox items="{Northwind>/Categories}" showSecondaryValues="true" selectedKey="{/SelectedKey}">
-							<coretest:ListItem text="{Northwind>CategoryName}" key="{Northwind>CategoryID}" additionalText="{Northwind>Description}"/>
-						</ComboBox>
-						<Button text="GetInfo" press="onGetInfo"/>
-						<VBox items="{Northwind>/Categories}">
-							<VBox>
-							<Text text="{Northwind>CategoryName}"/>
-							<HBox>
-								<Text text="{Northwind>CategoryName}"/>
-								<Text text="{Northwind>CategoryID}"/>
-								<Text text="{Northwind>Description}"/>
-							</HBox>
-							</VBox>
-						</VBox>
-					</VBox>
-					<HBox>
-				    <Label text="Customers:"/>
-				    <Select items="{Northwind>/Customers}">
-				    	<coretest:ListItem key="{Northwind>CustomerID}" text="{Northwind>CompanyName}"/>
-				    </Select>
-					</HBox>
+					<Table id="idTableProducts" items="{/Products}" itemPress="onItemPress" mode="Delete" delete="onDeleteData">
+						<headerToolbar>
+							<Toolbar>
+								<Button text="Get Data" type="Emphasized" press="onGetData"/>
+								<Button icon="sap-icon://add" press="onAddData"/>
+								<Button icon="sap-icon://less" press="onRemoveData"/>
+							</Toolbar>
+						</headerToolbar>
+						<columns>
+							<Column >
+								<Text text="ProductId"/>
+							</Column>
+							<Column >
+								<Text text="ProductName"/>
+							</Column>
+							<Column >
+								<Text text="UnitPrice"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem type="Active">
+								<cells>
+									<Text text="{ProductID}"/>
+									<Text text="{ProductName}"/>
+									<Text text="{UnitPrice}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
 				</content>
 			</Page>
 		</pages>

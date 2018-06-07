@@ -7,13 +7,13 @@
 					<VBox>
 						<HBox>
 						<Label text="UserName"/>
-						<Input/>
+						<Input value="{/InputValue}"/>
 						</HBox>
 						<HBox>
 						<Label text="Password"/>
 						<Input type="Password"/>
 						</HBox>
-						<Button text="Login" type="Accept"/>
+						<Button text="Login" type="Accept" press="onGetDetails"/>
 					</VBox>
 				</content>
 			</Page>

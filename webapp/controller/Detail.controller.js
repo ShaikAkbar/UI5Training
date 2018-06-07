@@ -20,7 +20,8 @@ sap.ui.define([
 						{FName: 'Anant', LName: 'Pai', EmpId:'12348' }
 						],
 					InputValue:"Anant",
-					InputValue1:"Anant1"
+					InputValue1:"Anant1",
+					Products:[]
 						
 				});
 				//this.getView().setModel(oModel,"ViewModel");
@@ -63,6 +64,53 @@ sap.ui.define([
 		//	}
 			onSubmit: function(){
 				var oModel = new JSONModel({});
+			},
+			
+			getFormattedValue: function(nUnitPrice, nUnitsOnOrder){
+				if(nUnitPrice <= 20 && nUnitsOnOrder === 0){
+					return "Out of Stock";
+				}else if(nUnitPrice > 20 && nUnitPrice <= 80){
+					return "€"+nUnitPrice;
+				}else{
+					return "₹"+nUnitPrice;
+				}
+			},
+			
+			onGetData: function(){
+				var oModel = this.getView().getModel("Northwind");
+				oModel.read("/Products", {
+					success:function(oData){
+						var oViewModel = this.getView().getModel();
+						oViewModel.setProperty("/Products", oData.results);
+					}.bind(this),
+					error:function(){
+						console.log("Error Occured");
+					}
+				});
+			},
+			
+			onAddData: function(){
+				var aCurrData = this.getView().getModel().getProperty("/Products"),
+				oObj2Add = {ProductID:"a1", ProductName:"Total Oil", UnitPrice:"89"};
+				aCurrData.push(oObj2Add);
+				this.getView().getModel().setProperty("/Products", aCurrData);
+			},
+			
+			onRemoveData: function(){
+				var aCurrData = this.getView().getModel().getProperty("/Products");
+				aCurrData.pop();
+				this.getView().getModel().setProperty("/Products", aCurrData);
+			},
+			
+			onDeleteData: function(oEvent){
+				var iIndex = oEvent.getParameter("listItem").getBindingContext().getPath().split("/")[2],
+				aCurrData = this.getView().getModel().getProperty("/Products");
+				aCurrData.splice(iIndex, 1);
+				this.getView().getModel().setProperty("/Products", aCurrData);
+			},
+			
+			onItemPress: function(oEvent){
+				alert(oEvent.getParameter("listItem").getBindingContext("Northwind").getProperty("ProductID"));
 			}
 	});
 
